@@ -397,6 +397,23 @@ class ProcessorMixin:
                     output_dir=output_dir,
                     **kwargs,
                 )
+            elif ext in [".mp3", ".wav", ".m4a", ".ogg", ".flac", ".aac"]:
+                self.logger.info("Detected audio file, using parser for audio transcription...")
+                # Pass audio configuration from config if not already in kwargs
+                audio_kwargs = {
+                    'whisper_model': kwargs.get('whisper_model', self.config.audio_whisper_model),
+                    'device': kwargs.get('device', self.config.audio_device),
+                    'lang': kwargs.get('lang', self.config.audio_language if self.config.audio_language != 'auto' else None),
+                }
+                # Merge with other kwargs
+                audio_kwargs.update({k: v for k, v in kwargs.items() if k not in audio_kwargs})
+
+                content_list = await asyncio.to_thread(
+                    doc_parser.parse_audio,
+                    audio_path=file_path,
+                    output_dir=output_dir,
+                    **audio_kwargs,
+                )
             else:
                 # For other or unknown formats, use generic parser
                 self.logger.info(
