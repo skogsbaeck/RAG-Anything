@@ -34,6 +34,19 @@ class RAGAnythingConfig:
     )
     """Whether to display content statistics during parsing."""
 
+    # Audio Processing Configuration
+    # ---
+    audio_language: str = field(default=get_env_value("AUDIO_LANGUAGE", "auto", str))
+    """Default language for audio transcription: 'auto', 'en', 'de', 'es', 'fr', etc."""
+
+    audio_whisper_model: str = field(
+        default=get_env_value("AUDIO_WHISPER_MODEL", "base", str)
+    )
+    """Whisper model size for audio transcription: 'tiny', 'base', 'small', 'medium', 'large'."""
+
+    audio_device: str = field(default=get_env_value("AUDIO_DEVICE", "cpu", str))
+    """Processing device for audio transcription: 'cpu' or 'cuda'."""
+
     # Multimodal Processing Configuration
     # ---
     enable_image_processing: bool = field(
@@ -61,7 +74,7 @@ class RAGAnythingConfig:
     supported_file_extensions: List[str] = field(
         default_factory=lambda: get_env_value(
             "SUPPORTED_FILE_EXTENSIONS",
-            ".pdf,.jpg,.jpeg,.png,.bmp,.tiff,.tif,.gif,.webp,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md",
+            ".pdf,.jpg,.jpeg,.png,.bmp,.tiff,.tif,.gif,.webp,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md,.mp3,.wav,.m4a,.ogg,.flac,.aac",
             str,
         ).split(",")
     )
