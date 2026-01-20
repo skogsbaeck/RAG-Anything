@@ -54,6 +54,7 @@ class Parser:
     OFFICE_FORMATS = {".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx"}
     IMAGE_FORMATS = {".png", ".jpeg", ".jpg", ".bmp", ".tiff", ".tif", ".gif", ".webp"}
     TEXT_FORMATS = {".txt", ".md"}
+    AUDIO_FORMATS = {".mp3", ".wav", ".m4a", ".ogg", ".flac", ".aac"}
 
     # Class-level logger
     logger = logging.getLogger(__name__)
@@ -1175,6 +1176,84 @@ class MineruParser(Parser):
             self.logger.error(f"Error in parse_text_file: {str(e)}")
             raise
 
+    def parse_audio(
+        self,
+        audio_path: Union[str, Path],
+        output_dir: Optional[str] = None,
+        lang: Optional[str] = None,
+        whisper_model: str = "base",
+        device: str = "cpu",
+        **kwargs,
+    ) -> List[Dict[str, Any]]:
+        """
+        Parse audio file by transcribing it to text using Whisper.
+
+        Supported formats: .mp3, .wav, .m4a, .ogg, .flac, .aac
+
+        Args:
+            audio_path: Path to the audio file
+            output_dir: Output directory path (for saving transcription metadata)
+            lang: Language code (de, en, es, fr, etc.) - defaults to auto-detect
+            whisper_model: Whisper model size (tiny, base, small, medium, large) - default: base
+            device: Processing device (cpu or cuda) - default: cpu
+            **kwargs: Additional parameters
+
+        Returns:
+            List[Dict[str, Any]]: List of content blocks with transcribed text
+
+        Raises:
+            ImportError: If audio dependencies are not installed
+            FileNotFoundError: If audio file does not exist
+        """
+        try:
+            from raganything.audio import AudioProcessor, AudioConfig
+        except ImportError:
+            raise ImportError(
+                "Audio support requires additional dependencies.\n"
+                "Install with: pip install raganything[audio]\n"
+                "Or manually: pip install faster-whisper librosa soundfile"
+            )
+
+        # Convert to Path object
+        audio_path = Path(audio_path)
+        if not audio_path.exists():
+            raise FileNotFoundError(f"Audio file does not exist: {audio_path}")
+
+        self.logger.info(f"Transcribing audio file: {audio_path.name}")
+
+        # Configure audio processor
+        config = AudioConfig(
+            language=lang if lang else "auto",
+            whisper_model=whisper_model,
+            device=device
+        )
+
+        # Transcribe audio
+        processor = AudioProcessor(config)
+        transcription = processor.transcribe(audio_path)
+
+        self.logger.info(
+            f"Transcribed {transcription.word_count} words in "
+            f"{transcription.duration_seconds:.1f}s (language: {transcription.language})"
+        )
+
+        # Convert to content_list format (same as parse_pdf returns)
+        content_list = [{
+            'type': 'text',
+            'text': transcription.text,
+            'page_idx': 0,
+            'metadata': {
+                'source_type': 'audio_transcription',
+                'duration_seconds': transcription.duration_seconds,
+                'language': transcription.language,
+                'word_count': transcription.word_count,
+                'confidence': getattr(transcription, 'confidence', None),
+                'whisper_model': whisper_model
+            }
+        }]
+
+        return content_list
+
     def parse_document(
         self,
         file_path: Union[str, Path],
@@ -1217,6 +1296,8 @@ class MineruParser(Parser):
             return self.parse_office_doc(file_path, output_dir, lang, **kwargs)
         elif ext in self.TEXT_FORMATS:
             return self.parse_text_file(file_path, output_dir, lang, **kwargs)
+        elif ext in self.AUDIO_FORMATS:
+            return self.parse_audio(file_path, output_dir, lang, **kwargs)
         else:
             # For unsupported file types, try as PDF
             self.logger.warning(
