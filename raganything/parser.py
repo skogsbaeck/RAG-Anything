@@ -1185,26 +1185,6 @@ class MineruParser(Parser):
         device: str = "cpu",
         **kwargs,
     ) -> List[Dict[str, Any]]:
-        """
-        Parse audio file by transcribing it to text using Whisper.
-
-        Supported formats: .mp3, .wav, .m4a, .ogg, .flac, .aac
-
-        Args:
-            audio_path: Path to the audio file
-            output_dir: Output directory path (for saving transcription metadata)
-            lang: Language code (de, en, es, fr, etc.) - defaults to auto-detect
-            whisper_model: Whisper model size (tiny, base, small, medium, large) - default: base
-            device: Processing device (cpu or cuda) - default: cpu
-            **kwargs: Additional parameters
-
-        Returns:
-            List[Dict[str, Any]]: List of content blocks with transcribed text
-
-        Raises:
-            ImportError: If audio dependencies are not installed
-            FileNotFoundError: If audio file does not exist
-        """
         try:
             from raganything.audio import AudioProcessor, AudioConfig
         except ImportError:
@@ -1214,31 +1194,26 @@ class MineruParser(Parser):
                 "Or manually: pip install faster-whisper librosa soundfile"
             )
 
-        # Convert to Path object
         audio_path = Path(audio_path)
         if not audio_path.exists():
             raise FileNotFoundError(f"Audio file does not exist: {audio_path}")
 
         self.logger.info(f"Transcribing audio file: {audio_path.name}")
 
-        # Configure audio processor
         config = AudioConfig(
             language=lang if lang else "auto",
             whisper_model=whisper_model,
             device=device
         )
 
-        # Transcribe audio
-        processor = AudioProcessor(config)
-        transcription = processor.transcribe(audio_path)
+        transcription = AudioProcessor(config).transcribe(audio_path)
 
         self.logger.info(
             f"Transcribed {transcription.word_count} words in "
             f"{transcription.duration_seconds:.1f}s (language: {transcription.language})"
         )
 
-        # Convert to content_list format (same as parse_pdf returns)
-        content_list = [{
+        return [{
             'type': 'text',
             'text': transcription.text,
             'page_idx': 0,
@@ -1251,8 +1226,6 @@ class MineruParser(Parser):
                 'whisper_model': whisper_model
             }
         }]
-
-        return content_list
 
     def parse_document(
         self,

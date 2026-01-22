@@ -399,13 +399,11 @@ class ProcessorMixin:
                 )
             elif ext in [".mp3", ".wav", ".m4a", ".ogg", ".flac", ".aac"]:
                 self.logger.info("Detected audio file, using parser for audio transcription...")
-                # Pass audio configuration from config if not already in kwargs
                 audio_kwargs = {
                     'whisper_model': kwargs.get('whisper_model', self.config.audio_whisper_model),
                     'device': kwargs.get('device', self.config.audio_device),
-                    'lang': kwargs.get('lang', self.config.audio_language if self.config.audio_language != 'auto' else None),
+                    'lang': kwargs.get('lang', None if self.config.audio_language == 'auto' else self.config.audio_language),
                 }
-                # Merge with other kwargs
                 audio_kwargs.update({k: v for k, v in kwargs.items() if k not in audio_kwargs})
 
                 content_list = await asyncio.to_thread(
