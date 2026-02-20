@@ -56,17 +56,15 @@ Recent decisions affecting current work:
 ### Pending Todos
 
 - .gitignore has `test_*` pattern that is too broad — test files require `git add -f`; consider narrowing the pattern
-- 01-02-SUMMARY.md does not exist — SpreadsheetParser class was implemented (visible in spreadsheet.py) but plan 02 was never formally completed with a commit + summary
 
 ### Blockers/Concerns
 
 - Formula-None threshold (>10% triggers LibreOffice fallback) is a heuristic — validate against real samples in Phase 3
 - xlrd legacy .xls fixture coverage may require synthetic files if real Excel 97 era files are hard to source
 - .gitignore `test_*` pattern may cause issues for future test file commits
-- 01-02 tests (test_spreadsheet_parser.py) were specified in plan 02 but may not exist — verify before Phase 2 integration
 
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 01-03-PLAN.md — spreadsheet packaging and top-level exports
+Stopped at: Completed 01-02-PLAN.md — SpreadsheetParser class + 19 TDD tests (backfilled after 01-03)
 Resume file: None
