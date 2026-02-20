@@ -7,15 +7,15 @@
 
 ### Core Parsing
 
-- [ ] **PARSE-01**: Parser reads all sheets in an xlsx/xls workbook independently
-- [ ] **PARSE-02**: Cell values coerced to clean strings (datetime, float, bool, None handled)
-- [ ] **PARSE-03**: Formula cells resolved to cached computed values via `data_only=True`
-- [ ] **PARSE-04**: Empty rows/columns stripped from each sheet before rendering
-- [ ] **PARSE-05**: Merged cells annotated with `[merged NxM]` on anchor cell, siblings marked empty
-- [ ] **PARSE-06**: Each sheet rendered as a GFM markdown table with all rows as data (no header inference — LLM interprets structure)
-- [ ] **PARSE-07**: Empty and hidden sheets skipped automatically
-- [ ] **PARSE-08**: Markdown special characters (pipes, newlines) sanitized in cell values
-- [ ] **PARSE-09**: Large sheets chunked at configurable row limit to prevent token explosion
+- [x] **PARSE-01**: Parser reads all sheets in an xlsx/xls workbook independently
+- [x] **PARSE-02**: Cell values coerced to clean strings (datetime, float, bool, None handled)
+- [x] **PARSE-03**: Formula cells resolved to cached computed values via `data_only=True`
+- [x] **PARSE-04**: Empty rows/columns stripped from each sheet before rendering
+- [x] **PARSE-05**: Merged cells annotated with `[merged NxM]` on anchor cell, siblings marked empty
+- [x] **PARSE-06**: Each sheet rendered as a GFM markdown table with all rows as data (no header inference — LLM interprets structure)
+- [x] **PARSE-07**: Empty and hidden sheets skipped automatically
+- [x] **PARSE-08**: Markdown special characters (pipes, newlines) sanitized in cell values
+- [x] **PARSE-09**: Large sheets chunked at configurable row limit to prevent token explosion
 
 ### Integration
 
@@ -30,12 +30,12 @@
 
 - [ ] **CONF-01**: `enable_direct_spreadsheet_parsing` config flag (default: True)
 - [ ] **CONF-02**: `spreadsheet_max_rows_per_sheet` config option with env var support
-- [ ] **CONF-03**: `spreadsheet` optional dependency group in pyproject.toml
+- [x] **CONF-03**: `spreadsheet` optional dependency group in pyproject.toml
 
 ### Metadata
 
-- [ ] **META-01**: Table caption includes workbook filename and sheet name
-- [ ] **META-02**: Sheet index mapped to `page_idx` for multi-sheet context
+- [x] **META-01**: Table caption includes workbook filename and sheet name
+- [x] **META-02**: Sheet index mapped to `page_idx` for multi-sheet context
 
 ## v2 Requirements
 
@@ -59,18 +59,18 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PARSE-01 | Phase 1 | Pending |
-| PARSE-02 | Phase 1 | Pending |
-| PARSE-03 | Phase 1 | Pending |
-| PARSE-04 | Phase 1 | Pending |
-| PARSE-05 | Phase 1 | Pending |
-| PARSE-06 | Phase 1 | Pending |
-| PARSE-07 | Phase 1 | Pending |
-| PARSE-08 | Phase 1 | Pending |
-| PARSE-09 | Phase 1 | Pending |
-| META-01 | Phase 1 | Pending |
-| META-02 | Phase 1 | Pending |
-| CONF-03 | Phase 1 | Pending |
+| PARSE-01 | Phase 1 | Complete |
+| PARSE-02 | Phase 1 | Complete |
+| PARSE-03 | Phase 1 | Complete |
+| PARSE-04 | Phase 1 | Complete |
+| PARSE-05 | Phase 1 | Complete |
+| PARSE-06 | Phase 1 | Complete |
+| PARSE-07 | Phase 1 | Complete |
+| PARSE-08 | Phase 1 | Complete |
+| PARSE-09 | Phase 1 | Complete |
+| META-01 | Phase 1 | Complete |
+| META-02 | Phase 1 | Complete |
+| CONF-03 | Phase 1 | Complete |
 | INTG-01 | Phase 2 | Pending |
 | INTG-02 | Phase 2 | Pending |
 | INTG-05 | Phase 2 | Pending |

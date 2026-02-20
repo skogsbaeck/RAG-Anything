@@ -12,7 +12,7 @@ This milestone adds a direct xlsx/xls parsing path to RAG-Anything, replacing th
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: SpreadsheetParser Core** - Isolated parser module with full xlsx/xls cell handling and markdown output
+- [x] **Phase 1: SpreadsheetParser Core** - Isolated parser module with full xlsx/xls cell handling and markdown output
 - [ ] **Phase 2: Parser + Config Integration** - Wire SpreadsheetParser into MineruParser with config flags and xlrd adapter
 - [ ] **Phase 3: Routing + End-to-End** - Activate feature in ProcessorMixin routing and verify full pipeline
 
@@ -31,9 +31,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — TDD: helper functions (cell formatting, sanitization, merge map, empty stripping)
-- [ ] 01-02-PLAN.md — TDD: SpreadsheetParser class (sheet parsing, markdown rendering, chunking)
-- [ ] 01-03-PLAN.md — Package wiring (pyproject.toml extras, __init__.py exports)
+- [x] 01-01-PLAN.md — TDD: helper functions (cell formatting, sanitization, merge map, empty stripping)
+- [x] 01-02-PLAN.md — TDD: SpreadsheetParser class (sheet parsing, markdown rendering, chunking)
+- [x] 01-03-PLAN.md — Package wiring (pyproject.toml extras, __init__.py exports)
 
 ### Phase 2: Parser + Config Integration
 **Goal**: MineruParser gains a `parse_spreadsheet()` method that calls SpreadsheetParser, falls back to LibreOffice on failure, and reads configuration flags
@@ -69,6 +69,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. SpreadsheetParser Core | 0/3 | Planned | - |
+| 1. SpreadsheetParser Core | 3/3 | Complete | 2026-02-20 |
 | 2. Parser + Config Integration | 0/? | Not started | - |
 | 3. Routing + End-to-End | 0/? | Not started | - |
