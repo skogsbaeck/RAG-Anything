@@ -28,10 +28,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Formula cells show their computed values; datetime, float, bool, and None cells render as clean strings with no Python repr artifacts
   4. Sheets exceeding `spreadsheet_max_rows_per_sheet` are chunked into multiple items rather than producing a single oversized table
   5. The `spreadsheet` optional dependency group in pyproject.toml installs openpyxl and xlrd with no other required changes
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md — TDD: helper functions (cell formatting, sanitization, merge map, empty stripping)
+- [ ] 01-02-PLAN.md — TDD: SpreadsheetParser class (sheet parsing, markdown rendering, chunking)
+- [ ] 01-03-PLAN.md — Package wiring (pyproject.toml extras, __init__.py exports)
 
 ### Phase 2: Parser + Config Integration
 **Goal**: MineruParser gains a `parse_spreadsheet()` method that calls SpreadsheetParser, falls back to LibreOffice on failure, and reads configuration flags
@@ -67,6 +69,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. SpreadsheetParser Core | 0/? | Not started | - |
+| 1. SpreadsheetParser Core | 0/3 | Planned | - |
 | 2. Parser + Config Integration | 0/? | Not started | - |
 | 3. Routing + End-to-End | 0/? | Not started | - |
