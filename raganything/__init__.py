@@ -6,6 +6,10 @@ from .audio import (
     AudioTranscription as AudioTranscription,
     AudioMetadata as AudioMetadata,
 )
+from .spreadsheet import (
+    SpreadsheetParser as SpreadsheetParser,
+    SpreadsheetConfig as SpreadsheetConfig,
+)
 
 __version__ = "1.2.9"
 __author__ = "Zirui Guo"
@@ -18,4 +22,6 @@ __all__ = [
     "AudioConfig",
     "AudioTranscription",
     "AudioMetadata",
+    "SpreadsheetParser",
+    "SpreadsheetConfig",
 ]
