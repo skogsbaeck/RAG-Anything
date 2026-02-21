@@ -1,28 +1,21 @@
-# Roadmap: Direct Spreadsheet Parsing for RAG-Anything
+# Milestone v1: Direct Spreadsheet Parsing
+
+**Status:** SHIPPED 2026-02-21
+**Phases:** 1-3
+**Total Plans:** 7
 
 ## Overview
 
-This milestone adds a direct xlsx/xls parsing path to RAG-Anything, replacing the lossy LibreOffice-to-PDF conversion with structured markdown table output. Three phases build from the isolated core parser module outward to full pipeline integration, following the same pattern established by the audio transcription feature.
+This milestone added a direct xlsx/xls parsing path to RAG-Anything, replacing the lossy LibreOffice-to-PDF conversion with structured markdown table output. Three phases built from the isolated core parser module outward to full pipeline integration, following the same pattern established by the audio transcription feature.
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
-
-Decimal phases appear between their surrounding integers in numeric order.
-
-- [x] **Phase 1: SpreadsheetParser Core** - Isolated parser module with full xlsx/xls cell handling and markdown output
-- [x] **Phase 2: Parser + Config Integration** - Wire SpreadsheetParser into MineruParser with config flags and xlrd adapter
-- [x] **Phase 3: Routing + End-to-End** - Activate feature in ProcessorMixin routing and verify full pipeline
-
-## Phase Details
-
 ### Phase 1: SpreadsheetParser Core
+
 **Goal**: A standalone, fully-tested SpreadsheetParser module produces correct markdown tables from any xlsx/xls workbook
 **Depends on**: Nothing (first phase)
 **Requirements**: PARSE-01, PARSE-02, PARSE-03, PARSE-04, PARSE-05, PARSE-06, PARSE-07, PARSE-08, PARSE-09, META-01, META-02, CONF-03
-**Success Criteria** (what must be TRUE):
+**Success Criteria**:
   1. Calling `SpreadsheetParser.parse("workbook.xlsx")` returns one content_list item per non-empty, non-hidden sheet
   2. Each returned item contains a valid GFM markdown table with pipe-escaped cell values, merged cell annotations, and a caption prefixed with the workbook filename and sheet name
   3. Formula cells show their computed values; datetime, float, bool, and None cells render as clean strings with no Python repr artifacts
@@ -35,28 +28,34 @@ Plans:
 - [x] 01-02-PLAN.md — TDD: SpreadsheetParser class (sheet parsing, markdown rendering, chunking)
 - [x] 01-03-PLAN.md — Package wiring (pyproject.toml extras, __init__.py exports)
 
+**Completed:** 2026-02-20
+
 ### Phase 2: Parser + Config Integration
+
 **Goal**: MineruParser gains a `parse_spreadsheet()` method that calls SpreadsheetParser, falls back to LibreOffice on failure, and reads configuration flags
 **Depends on**: Phase 1
 **Requirements**: INTG-01, INTG-02, INTG-05, CONF-01, CONF-02
-**Success Criteria** (what must be TRUE):
+**Success Criteria**:
   1. Calling `MineruParser.parse_spreadsheet("workbook.xlsx")` returns a content_list without requiring openpyxl to be importable at module load time (guarded import)
-  2. Passing an `.xls` file routes through `parse_spreadsheet()` which dispatches to the xlrd adapter (full xlrd E2E testing deferred to Phase 3)
+  2. Passing an `.xls` file routes through `parse_spreadsheet()` which dispatches to the xlrd adapter
   3. When SpreadsheetParser raises an exception, `parse_spreadsheet()` logs a WARNING with the filename and exception, then returns the LibreOffice PDF path result
-  4. `enable_direct_spreadsheet_parsing=False` in config causes ProcessorMixin to route spreadsheets to `parse_office_doc()` instead of `parse_spreadsheet()` (the flag controls routing in ProcessorMixin, not the method itself — MineruParser has no config state)
+  4. `enable_direct_spreadsheet_parsing=False` in config causes ProcessorMixin to route spreadsheets to `parse_office_doc()` instead of `parse_spreadsheet()`
 **Plans**: 2 plans
 
 Plans:
 - [x] 02-01-PLAN.md — Config fields + parse_spreadsheet() method on MineruParser with tests
 - [x] 02-02-PLAN.md — ProcessorMixin routing split + zero-content guard fix with tests
 
+**Completed:** 2026-02-21
+
 ### Phase 3: Routing + End-to-End
+
 **Goal**: ProcessorMixin routes xlsx/xls through the direct parser, the content_list contract is verified, and a real workbook flows through to the LightRAG knowledge graph
 **Depends on**: Phase 2
 **Requirements**: INTG-03, INTG-04, INTG-06
-**Success Criteria** (what must be TRUE):
+**Success Criteria**:
   1. Calling `process_document_complete("workbook.xlsx")` on a RAGAnything instance invokes the direct parser (not LibreOffice) and does not raise an error
-  2. A workbook with multiple sheets produces multiple table content items, each correctly received by TableModalProcessor (verified by asserting `type`, `table_body`, `table_caption`, and `page_idx` field types match the contract)
+  2. A workbook with multiple sheets produces multiple table content items, each correctly received by TableModalProcessor
   3. When direct parsing fails mid-pipeline, the fallback to LibreOffice is logged at WARNING level and processing completes without a crash
 **Plans**: 2 plans
 
@@ -64,13 +63,38 @@ Plans:
 - [x] 03-01-PLAN.md — Formula-None threshold logic + pytest slow marker
 - [x] 03-02-PLAN.md — E2E tests (contract, routing, fallback, threshold)
 
-## Progress
+**Completed:** 2026-02-21
 
-**Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3
+## Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. SpreadsheetParser Core | 3/3 | Complete | 2026-02-20 |
 | 2. Parser + Config Integration | 2/2 | Complete | 2026-02-21 |
 | 3. Routing + End-to-End | 2/2 | Complete | 2026-02-21 |
+
+---
+
+## Milestone Summary
+
+**Key Decisions:**
+- openpyxl for xlsx parsing — most mature Python xlsx library, read-only mode, handles merged cells (Outcome: Good)
+- Annotate merged cells with `[merged NxM]` rather than fill or ignore — preserves structure for LLM (Outcome: Good)
+- Keep LibreOffice as fallback — safety net for edge cases and uncached-formula workbooks (Outcome: Good)
+- Follow audio.py pattern (dedicated module) — proven pattern, clean separation (Outcome: Good)
+- ImportError is hard error (re-raised) — missing deps must not silently fall back (Outcome: Good)
+- Formula-None 10% threshold — heuristic to detect uncached formulas and fall back to LibreOffice (Outcome: Good)
+
+**Issues Resolved:**
+- GFM separator detection bug: empty data rows (`| |`) misclassified as separator rows — fixed by requiring dash presence
+- Local import patching: SpreadsheetParser must be patched at `raganything.spreadsheet` not `raganything.parser`
+
+**Issues Deferred:**
+- `.gitignore` has `test_*` pattern that is too broad — test files require `git add -f`
+
+**Technical Debt Incurred:**
+- None significant
+
+---
+
+_For current project status, see .planning/PROJECT.md_

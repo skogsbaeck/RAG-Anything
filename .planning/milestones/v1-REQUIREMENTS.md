@@ -1,7 +1,12 @@
-# Requirements: Direct Spreadsheet Parsing
+# Requirements Archive: v1 Direct Spreadsheet Parsing
 
-**Defined:** 2026-02-20
-**Core Value:** Preserve structural integrity of tabular spreadsheet data for RAG knowledge graph ingestion
+**Archived:** 2026-02-21
+**Status:** SHIPPED
+
+This is the archived requirements specification for v1.
+For current requirements, see `.planning/REQUIREMENTS.md` (created for next milestone).
+
+---
 
 ## v1 Requirements
 
@@ -37,24 +42,6 @@
 - [x] **META-01**: Table caption includes workbook filename and sheet name
 - [x] **META-02**: Sheet index mapped to `page_idx` for multi-sheet context
 
-## v2 Requirements
-
-### Extended Formats
-
-- **CSV-01**: CSV/TSV file direct parsing
-- **NAMED-01**: Named range extraction as separate content items
-- **CHART-01**: Chart/graph extraction from spreadsheets
-
-## Out of Scope
-
-| Feature | Reason |
-|---------|--------|
-| Google Sheets API | Only handling exported files, not live connections |
-| Cell styling/colors | Not useful for text-based RAG content |
-| Formula string preservation | Computed values sufficient, formulas confuse LLM |
-| Pivot table reconstruction | High complexity, low RAG value |
-| Cross-sheet dependency tracing | High complexity, deferred |
-
 ## Traceability
 
 | Requirement | Phase | Status |
@@ -80,11 +67,13 @@
 | INTG-04 | Phase 3 | Complete |
 | INTG-06 | Phase 3 | Complete |
 
-**Coverage:**
-- v1 requirements: 20 total
-- Mapped to phases: 20
-- Unmapped: 0
+---
+
+## Milestone Summary
+
+**Shipped:** 20 of 20 v1 requirements
+**Adjusted:** None — all requirements shipped as originally specified
+**Dropped:** None
 
 ---
-*Requirements defined: 2026-02-20*
-*Last updated: 2026-02-21 after Phase 3 completion*
+*Archived: 2026-02-21 as part of v1 milestone completion*
