@@ -47,6 +47,18 @@ class RAGAnythingConfig:
     audio_device: str = field(default=get_env_value("AUDIO_DEVICE", "cpu", str))
     """Processing device for audio transcription: 'cpu' or 'cuda'."""
 
+    # Spreadsheet Processing Configuration
+    # ---
+    enable_direct_spreadsheet_parsing: bool = field(
+        default=get_env_value("RAG_ANYTHING_DIRECT_SPREADSHEET", True, bool)
+    )
+    """Enable direct spreadsheet parsing without LibreOffice conversion."""
+
+    spreadsheet_max_rows_per_chunk: int = field(
+        default=get_env_value("RAG_ANYTHING_SPREADSHEET_MAX_ROWS", 150, int)
+    )
+    """Maximum rows per content_list chunk when parsing spreadsheets directly."""
+
     # Multimodal Processing Configuration
     # ---
     enable_image_processing: bool = field(

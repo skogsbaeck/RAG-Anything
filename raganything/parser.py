@@ -51,7 +51,8 @@ class Parser:
     """
 
     # Define common file formats
-    OFFICE_FORMATS = {".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx"}
+    OFFICE_FORMATS = {".doc", ".docx", ".ppt", ".pptx"}
+    SPREADSHEET_FORMATS = {".xls", ".xlsx"}
     IMAGE_FORMATS = {".png", ".jpeg", ".jpg", ".bmp", ".tiff", ".tif", ".gif", ".webp"}
     TEXT_FORMATS = {".txt", ".md"}
     AUDIO_FORMATS = {".mp3", ".wav", ".m4a", ".ogg", ".flac", ".aac"}
@@ -1227,6 +1228,44 @@ class MineruParser(Parser):
             }
         }]
 
+    def parse_spreadsheet(
+        self,
+        file_path: Union[str, Path],
+        output_dir: Optional[str] = None,
+        lang: Optional[str] = None,
+        max_rows_per_chunk: int = 150,
+        **kwargs,
+    ) -> List[Dict[str, Any]]:
+        try:
+            from raganything.spreadsheet import SpreadsheetParser, SpreadsheetConfig
+        except ImportError:
+            raise ImportError(
+                "Spreadsheet support requires additional dependencies.\n"
+                "Install with: pip install raganything[spreadsheet]\n"
+                "Or manually: pip install openpyxl xlrd"
+            )
+
+        file_path = Path(file_path)
+        if not file_path.exists():
+            raise FileNotFoundError(f"Spreadsheet file does not exist: {file_path}")
+
+        config = SpreadsheetConfig(max_rows_per_chunk=max_rows_per_chunk)
+
+        try:
+            content_list = SpreadsheetParser(config).parse(file_path)
+            self.logger.info(
+                f"Parsed spreadsheet {file_path.name}: {len(content_list)} block(s)"
+            )
+            return content_list
+        except ImportError:
+            raise
+        except Exception as exc:
+            self.logger.warning(
+                f"Spreadsheet direct parse failed for {file_path.name} "
+                f"({type(exc).__name__}), falling back to LibreOffice"
+            )
+            return self.parse_office_doc(file_path, output_dir, lang, **kwargs)
+
     def parse_document(
         self,
         file_path: Union[str, Path],
@@ -1261,6 +1300,8 @@ class MineruParser(Parser):
             return self.parse_pdf(file_path, output_dir, method, lang, **kwargs)
         elif ext in self.IMAGE_FORMATS:
             return self.parse_image(file_path, output_dir, lang, **kwargs)
+        elif ext in self.SPREADSHEET_FORMATS:
+            return self.parse_spreadsheet(file_path, output_dir, lang, **kwargs)
         elif ext in self.OFFICE_FORMATS:
             self.logger.warning(
                 f"Warning: Office document detected ({ext}). "
