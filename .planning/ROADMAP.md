@@ -13,7 +13,7 @@ This milestone adds a direct xlsx/xls parsing path to RAG-Anything, replacing th
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: SpreadsheetParser Core** - Isolated parser module with full xlsx/xls cell handling and markdown output
-- [ ] **Phase 2: Parser + Config Integration** - Wire SpreadsheetParser into MineruParser with config flags and xlrd adapter
+- [x] **Phase 2: Parser + Config Integration** - Wire SpreadsheetParser into MineruParser with config flags and xlrd adapter
 - [ ] **Phase 3: Routing + End-to-End** - Activate feature in ProcessorMixin routing and verify full pipeline
 
 ## Phase Details
@@ -48,7 +48,7 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Config fields + parse_spreadsheet() method on MineruParser with tests
-- [ ] 02-02-PLAN.md — ProcessorMixin routing split + zero-content guard fix with tests
+- [x] 02-02-PLAN.md — ProcessorMixin routing split + zero-content guard fix with tests
 
 ### Phase 3: Routing + End-to-End
 **Goal**: ProcessorMixin routes xlsx/xls through the direct parser, the content_list contract is verified, and a real workbook flows through to the LightRAG knowledge graph
@@ -71,5 +71,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. SpreadsheetParser Core | 3/3 | Complete | 2026-02-20 |
-| 2. Parser + Config Integration | 1/2 | In progress | - |
+| 2. Parser + Config Integration | 2/2 | Complete | 2026-02-21 |
 | 3. Routing + End-to-End | 0/? | Not started | - |
