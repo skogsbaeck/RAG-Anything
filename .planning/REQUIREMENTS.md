@@ -21,10 +21,10 @@
 
 - [x] **INTG-01**: `SpreadsheetParser` module created following `audio.py` pattern
 - [x] **INTG-02**: `parse_spreadsheet` method added to `MineruParser` with guarded import
-- [ ] **INTG-03**: ProcessorMixin routes `.xls`/`.xlsx` to direct parser before Office branch
-- [ ] **INTG-04**: Fallback to LibreOffice PDF path on direct parse failure with explicit logging
+- [x] **INTG-03**: ProcessorMixin routes `.xls`/`.xlsx` to direct parser before Office branch
+- [x] **INTG-04**: Fallback to LibreOffice PDF path on direct parse failure with explicit logging
 - [x] **INTG-05**: `xlrd` adapter for legacy `.xls` files with unified interface
-- [ ] **INTG-06**: content_list items match existing contract (type, table_body, table_caption, page_idx)
+- [x] **INTG-06**: content_list items match existing contract (type, table_body, table_caption, page_idx)
 
 ### Configuration
 
@@ -76,9 +76,9 @@
 | INTG-05 | Phase 2 | Complete |
 | CONF-01 | Phase 2 | Complete |
 | CONF-02 | Phase 2 | Complete |
-| INTG-03 | Phase 3 | Pending |
-| INTG-04 | Phase 3 | Pending |
-| INTG-06 | Phase 3 | Pending |
+| INTG-03 | Phase 3 | Complete |
+| INTG-04 | Phase 3 | Complete |
+| INTG-06 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 20 total
@@ -87,4 +87,4 @@
 
 ---
 *Requirements defined: 2026-02-20*
-*Last updated: 2026-02-21 after Phase 2 completion*
+*Last updated: 2026-02-21 after Phase 3 completion*

@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: SpreadsheetParser Core** - Isolated parser module with full xlsx/xls cell handling and markdown output
 - [x] **Phase 2: Parser + Config Integration** - Wire SpreadsheetParser into MineruParser with config flags and xlrd adapter
-- [ ] **Phase 3: Routing + End-to-End** - Activate feature in ProcessorMixin routing and verify full pipeline
+- [x] **Phase 3: Routing + End-to-End** - Activate feature in ProcessorMixin routing and verify full pipeline
 
 ## Phase Details
 
@@ -61,8 +61,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Formula-None threshold logic + pytest slow marker
-- [ ] 03-02-PLAN.md — E2E tests (contract, routing, fallback, threshold)
+- [x] 03-01-PLAN.md — Formula-None threshold logic + pytest slow marker
+- [x] 03-02-PLAN.md — E2E tests (contract, routing, fallback, threshold)
 
 ## Progress
 
@@ -73,4 +73,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. SpreadsheetParser Core | 3/3 | Complete | 2026-02-20 |
 | 2. Parser + Config Integration | 2/2 | Complete | 2026-02-21 |
-| 3. Routing + End-to-End | 0/2 | Not started | - |
+| 3. Routing + End-to-End | 2/2 | Complete | 2026-02-21 |
