@@ -5,32 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Preserve structural integrity of tabular spreadsheet data for RAG knowledge graph ingestion
-**Current focus:** Phase 1 complete — ready for Phase 2
+**Current focus:** Phase 2 in progress — parser-config integration
 
 ## Current Position
 
-Phase: 1 of 3 (SpreadsheetParser Core) — COMPLETE
-Plan: 3 of 3 in Phase 1
-Status: Phase 1 verified, ready for Phase 2
-Last activity: 2026-02-20 — Phase 1 verified (12/12 must-haves passed)
+Phase: 2 of 3 (Parser-Config Integration)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-02-21 — Completed 02-01-PLAN.md
 
-Progress: [███░░░░░░░] 33%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: ~2 minutes
-- Total execution time: ~6 minutes
+- Total execution time: ~7 minutes
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 - SpreadsheetParser Core | 3/3 | ~6 min | ~2 min |
+| 2 - Parser-Config Integration | 1/2 | ~1 min | ~1 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (~1 min), 01-02 (~2 min), 01-03 (~3 min)
+- Last 5 plans: 01-01 (~1 min), 01-02 (~2 min), 01-03 (~3 min), 02-01 (~1 min)
 - Trend: fast execution
 
 *Updated after each plan completion*
@@ -52,6 +53,9 @@ Recent decisions affecting current work:
 - worksheet typed as Any in build_merge_map — guarded import pattern, no module-level openpyxl
 - Spreadsheet deps are optional — base install stays lightweight; users opt in with pip install raganything[spreadsheet]
 - Both openpyxl and xlrd added to the all group so raganything[all] covers everything
+- env var prefix RAG_ANYTHING_ for spreadsheet config fields — intentional divergence from existing unprefixed fields
+- ImportError from SpreadsheetParser is a hard error (re-raised) — missing deps must not silently fall back
+- SPREADSHEET_FORMATS separate from OFFICE_FORMATS — enables clean routing in parse_document()
 
 ### Pending Todos
 
@@ -65,6 +69,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-02-20
-Stopped at: Phase 1 complete and verified — ready for Phase 2 planning
+Last session: 2026-02-21
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None

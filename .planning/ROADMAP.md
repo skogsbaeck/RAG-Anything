@@ -47,7 +47,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Config fields + parse_spreadsheet() method on MineruParser with tests
+- [x] 02-01-PLAN.md — Config fields + parse_spreadsheet() method on MineruParser with tests
 - [ ] 02-02-PLAN.md — ProcessorMixin routing split + zero-content guard fix with tests
 
 ### Phase 3: Routing + End-to-End
@@ -71,5 +71,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. SpreadsheetParser Core | 3/3 | Complete | 2026-02-20 |
-| 2. Parser + Config Integration | 0/2 | Not started | - |
+| 2. Parser + Config Integration | 1/2 | In progress | - |
 | 3. Routing + End-to-End | 0/? | Not started | - |
