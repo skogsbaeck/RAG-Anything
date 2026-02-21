@@ -19,17 +19,17 @@
 
 ### Integration
 
-- [ ] **INTG-01**: `SpreadsheetParser` module created following `audio.py` pattern
-- [ ] **INTG-02**: `parse_spreadsheet` method added to `MineruParser` with guarded import
+- [x] **INTG-01**: `SpreadsheetParser` module created following `audio.py` pattern
+- [x] **INTG-02**: `parse_spreadsheet` method added to `MineruParser` with guarded import
 - [ ] **INTG-03**: ProcessorMixin routes `.xls`/`.xlsx` to direct parser before Office branch
 - [ ] **INTG-04**: Fallback to LibreOffice PDF path on direct parse failure with explicit logging
-- [ ] **INTG-05**: `xlrd` adapter for legacy `.xls` files with unified interface
+- [x] **INTG-05**: `xlrd` adapter for legacy `.xls` files with unified interface
 - [ ] **INTG-06**: content_list items match existing contract (type, table_body, table_caption, page_idx)
 
 ### Configuration
 
-- [ ] **CONF-01**: `enable_direct_spreadsheet_parsing` config flag (default: True)
-- [ ] **CONF-02**: `spreadsheet_max_rows_per_sheet` config option with env var support
+- [x] **CONF-01**: `enable_direct_spreadsheet_parsing` config flag (default: True)
+- [x] **CONF-02**: `spreadsheet_max_rows_per_sheet` config option with env var support
 - [x] **CONF-03**: `spreadsheet` optional dependency group in pyproject.toml
 
 ### Metadata
@@ -71,11 +71,11 @@
 | META-01 | Phase 1 | Complete |
 | META-02 | Phase 1 | Complete |
 | CONF-03 | Phase 1 | Complete |
-| INTG-01 | Phase 2 | Pending |
-| INTG-02 | Phase 2 | Pending |
-| INTG-05 | Phase 2 | Pending |
-| CONF-01 | Phase 2 | Pending |
-| CONF-02 | Phase 2 | Pending |
+| INTG-01 | Phase 2 | Complete |
+| INTG-02 | Phase 2 | Complete |
+| INTG-05 | Phase 2 | Complete |
+| CONF-01 | Phase 2 | Complete |
+| CONF-02 | Phase 2 | Complete |
 | INTG-03 | Phase 3 | Pending |
 | INTG-04 | Phase 3 | Pending |
 | INTG-06 | Phase 3 | Pending |
@@ -87,4 +87,4 @@
 
 ---
 *Requirements defined: 2026-02-20*
-*Last updated: 2026-02-20 after roadmap creation*
+*Last updated: 2026-02-21 after Phase 2 completion*
