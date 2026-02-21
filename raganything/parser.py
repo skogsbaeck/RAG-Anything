@@ -31,6 +31,39 @@ from typing import (
 
 T = TypeVar("T")
 
+_FORMULA_NONE_THRESHOLD = 0.10
+
+
+def _none_ratio_exceeds_threshold(
+    content_list: list[dict], threshold: float = _FORMULA_NONE_THRESHOLD
+) -> bool:
+    """Return True if the ratio of None/empty cells exceeds the threshold.
+
+    Counts cells across all table_body markdown strings in content_list.
+    A cell is 'empty' if its stripped content is empty or a single dash.
+    """
+    total = 0
+    empty = 0
+    for item in content_list:
+        if not isinstance(item, dict) or item.get("type") != "table":
+            continue
+        table_body = item.get("table_body")
+        if not isinstance(table_body, str):
+            continue
+        for line in table_body.splitlines():
+            stripped = line.strip()
+            # Skip header separator lines (e.g. |---|---|)
+            if stripped.replace("|", "").replace("-", "").replace(" ", "") == "":
+                continue
+            cells = stripped.split("|")
+            # Remove leading/trailing empty strings from split on pipe-bordered rows
+            cells = [c for i, c in enumerate(cells) if not (i == 0 and c == "") and not (i == len(cells) - 1 and c == "")]
+            for cell in cells:
+                total += 1
+                if cell.strip() in ("", "-"):
+                    empty += 1
+    return total > 0 and (empty / total) > threshold
+
 
 class MineruExecutionError(Exception):
     """catch mineru error"""
@@ -1256,6 +1289,12 @@ class MineruParser(Parser):
             self.logger.info(
                 f"Parsed spreadsheet {file_path.name}: {len(content_list)} block(s)"
             )
+            if _none_ratio_exceeds_threshold(content_list):
+                self.logger.warning(
+                    f"Spreadsheet {file_path.name} has >10%% None cells "
+                    f"(likely uncached formulas), falling back to LibreOffice"
+                )
+                return self.parse_office_doc(file_path, output_dir, lang, **kwargs)
             return content_list
         except ImportError:
             raise
