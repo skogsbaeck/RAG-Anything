@@ -58,10 +58,11 @@ Plans:
   1. Calling `process_document_complete("workbook.xlsx")` on a RAGAnything instance invokes the direct parser (not LibreOffice) and does not raise an error
   2. A workbook with multiple sheets produces multiple table content items, each correctly received by TableModalProcessor (verified by asserting `type`, `table_body`, `table_caption`, and `page_idx` field types match the contract)
   3. When direct parsing fails mid-pipeline, the fallback to LibreOffice is logged at WARNING level and processing completes without a crash
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — Formula-None threshold logic + pytest slow marker
+- [ ] 03-02-PLAN.md — E2E tests (contract, routing, fallback, threshold)
 
 ## Progress
 
@@ -72,4 +73,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. SpreadsheetParser Core | 3/3 | Complete | 2026-02-20 |
 | 2. Parser + Config Integration | 2/2 | Complete | 2026-02-21 |
-| 3. Routing + End-to-End | 0/? | Not started | - |
+| 3. Routing + End-to-End | 0/2 | Not started | - |
