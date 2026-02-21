@@ -44,10 +44,11 @@ Plans:
   2. Passing an `.xls` file routes through the xlrd adapter and returns the same content_list structure as an xlsx file
   3. When SpreadsheetParser raises an exception, `parse_spreadsheet()` logs a WARNING with the filename and exception, then returns the LibreOffice PDF path result
   4. `enable_direct_spreadsheet_parsing=False` in config causes `parse_spreadsheet()` to skip direct parsing entirely and go straight to LibreOffice
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: TBD
+- [ ] 02-01-PLAN.md — Config fields + parse_spreadsheet() method on MineruParser with tests
+- [ ] 02-02-PLAN.md — ProcessorMixin routing split + zero-content guard fix with tests
 
 ### Phase 3: Routing + End-to-End
 **Goal**: ProcessorMixin routes xlsx/xls through the direct parser, the content_list contract is verified, and a real workbook flows through to the LightRAG knowledge graph
@@ -70,5 +71,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. SpreadsheetParser Core | 3/3 | Complete | 2026-02-20 |
-| 2. Parser + Config Integration | 0/? | Not started | - |
+| 2. Parser + Config Integration | 0/2 | Not started | - |
 | 3. Routing + End-to-End | 0/? | Not started | - |
