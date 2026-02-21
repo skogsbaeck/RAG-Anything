@@ -41,9 +41,9 @@ Plans:
 **Requirements**: INTG-01, INTG-02, INTG-05, CONF-01, CONF-02
 **Success Criteria** (what must be TRUE):
   1. Calling `MineruParser.parse_spreadsheet("workbook.xlsx")` returns a content_list without requiring openpyxl to be importable at module load time (guarded import)
-  2. Passing an `.xls` file routes through the xlrd adapter and returns the same content_list structure as an xlsx file
+  2. Passing an `.xls` file routes through `parse_spreadsheet()` which dispatches to the xlrd adapter (full xlrd E2E testing deferred to Phase 3)
   3. When SpreadsheetParser raises an exception, `parse_spreadsheet()` logs a WARNING with the filename and exception, then returns the LibreOffice PDF path result
-  4. `enable_direct_spreadsheet_parsing=False` in config causes `parse_spreadsheet()` to skip direct parsing entirely and go straight to LibreOffice
+  4. `enable_direct_spreadsheet_parsing=False` in config causes ProcessorMixin to route spreadsheets to `parse_office_doc()` instead of `parse_spreadsheet()` (the flag controls routing in ProcessorMixin, not the method itself — MineruParser has no config state)
 **Plans**: 2 plans
 
 Plans:
