@@ -377,13 +377,31 @@ class ProcessorMixin:
                     content_list = MineruParser().parse_image(
                         image_path=file_path, output_dir=output_dir, **kwargs
                     )
+            elif ext in [".xls", ".xlsx"]:
+                self.logger.info("Detected spreadsheet file, using direct parser...")
+                if self.config.enable_direct_spreadsheet_parsing:
+                    content_list = await asyncio.to_thread(
+                        doc_parser.parse_spreadsheet,
+                        file_path=file_path,
+                        output_dir=output_dir,
+                        max_rows_per_chunk=self.config.spreadsheet_max_rows_per_chunk,
+                        **kwargs,
+                    )
+                else:
+                    self.logger.info(
+                        "Direct spreadsheet parsing disabled, using LibreOffice path..."
+                    )
+                    content_list = await asyncio.to_thread(
+                        doc_parser.parse_office_doc,
+                        doc_path=file_path,
+                        output_dir=output_dir,
+                        **kwargs,
+                    )
             elif ext in [
                 ".doc",
                 ".docx",
                 ".ppt",
                 ".pptx",
-                ".xls",
-                ".xlsx",
                 ".html",
                 ".htm",
                 ".xhtml",
@@ -437,7 +455,11 @@ class ProcessorMixin:
         msg = f"Parsing {file_path} complete! Extracted {len(content_list)} content blocks"
         self.logger.info(msg)
 
-        if len(content_list) == 0:
+        is_direct_spreadsheet = (
+            ext in [".xls", ".xlsx"]
+            and self.config.enable_direct_spreadsheet_parsing
+        )
+        if len(content_list) == 0 and not is_direct_spreadsheet:
             raise ValueError("Parsing failed: No content was extracted")
 
         # Generate doc_id based on content
