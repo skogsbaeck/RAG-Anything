@@ -52,8 +52,8 @@ def _none_ratio_exceeds_threshold(
             continue
         for line in table_body.splitlines():
             stripped = line.strip()
-            # Skip header separator lines (e.g. |---|---|)
-            if stripped.replace("|", "").replace("-", "").replace(" ", "") == "":
+            # Skip header separator lines (e.g. |---|---|) — must contain at least one dash
+            if "-" in stripped and stripped.replace("|", "").replace("-", "").replace(" ", "").replace(":", "") == "":
                 continue
             cells = stripped.split("|")
             # Remove leading/trailing empty strings from split on pipe-bordered rows
