@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Preserve structural integrity of tabular spreadsheet data for RAG knowledge graph ingestion
-**Current focus:** Phase 2 complete and verified — ready for Phase 3
+**Current focus:** Phase 3 in progress — plan 01 complete, ready for plan 02
 
 ## Current Position
 
-Phase: 2 of 3 (Parser-Config Integration) — COMPLETE
-Plan: 2 of 2 in Phase 2
-Status: Phase 2 verified (9/9 must-haves passed), ready for Phase 3
-Last activity: 2026-02-21 — Phase 2 verified
+Phase: 3 of 3 (Routing End-to-End) — In progress
+Plan: 1 of 2 in Phase 3
+Status: Plan 03-01 complete — threshold logic and pytest marker in place
+Last activity: 2026-02-21 — Completed 03-01-PLAN.md
 
-Progress: [██████░░░░] 67%
+Progress: [███████░░░] 75%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: ~2 minutes
-- Total execution time: ~9 minutes
+- Total execution time: ~11 minutes
 
 **By Phase:**
 
@@ -29,9 +29,10 @@ Progress: [██████░░░░] 67%
 |-------|-------|-------|----------|
 | 1 - SpreadsheetParser Core | 3/3 | ~6 min | ~2 min |
 | 2 - Parser-Config Integration | 2/2 | ~3 min | ~1.5 min |
+| 3 - Routing End-to-End | 1/2 | ~2 min | ~2 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (~2 min), 01-03 (~3 min), 02-01 (~1 min), 02-02 (~2 min)
+- Last 5 plans: 01-03 (~3 min), 02-01 (~1 min), 02-02 (~2 min), 03-01 (~2 min)
 - Trend: fast execution, consistent
 
 *Updated after each plan completion*
@@ -58,6 +59,8 @@ Recent decisions affecting current work:
 - SPREADSHEET_FORMATS separate from OFFICE_FORMATS — enables clean routing in parse_document()
 - is_direct_spreadsheet flag is True even when parse_spreadsheet() internally falls back to LibreOffice — guard bypassed for both internal paths
 - _StubProcessor duck-typing approach for routing tests — avoids full RAGAnything/LightRAG stack instantiation
+- _FORMULA_NONE_THRESHOLD = 0.10 — 10% empty-cell ratio triggers LibreOffice fallback; heuristic to validate against real samples in plan 03-02
+- GFM separator detection requires at least one dash — distinguishes |---| separator rows from | | empty data rows in table_body parsing
 
 ### Pending Todos
 
@@ -65,12 +68,12 @@ Recent decisions affecting current work:
 
 ### Blockers/Concerns
 
-- Formula-None threshold (>10% triggers LibreOffice fallback) is a heuristic — validate against real samples in Phase 3
+- Formula-None threshold (>10% triggers LibreOffice fallback) is a heuristic — validate against real samples in plan 03-02
 - xlrd legacy .xls fixture coverage may require synthetic files if real Excel 97 era files are hard to source
 - .gitignore `test_*` pattern may cause issues for future test file commits
 
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Phase 2 complete and verified — ready for Phase 3 planning
+Stopped at: Completed 03-01-PLAN.md
 Resume file: None
