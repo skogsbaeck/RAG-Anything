@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Preserve structural integrity of tabular spreadsheet data for RAG knowledge graph ingestion
-**Current focus:** Phase 3 in progress — plan 01 complete, ready for plan 02
+**Current focus:** Phase 3 complete — all plans done
 
 ## Current Position
 
-Phase: 3 of 3 (Routing End-to-End) — In progress
-Plan: 1 of 2 in Phase 3
-Status: Plan 03-01 complete — threshold logic and pytest marker in place
-Last activity: 2026-02-21 — Completed 03-01-PLAN.md
+Phase: 3 of 3 (Routing End-to-End) — COMPLETE
+Plan: 2 of 2 in Phase 3
+Status: Plan 03-02 complete — E2E test suite in place, all Phase 3 success criteria proven
+Last activity: 2026-02-21 — Completed 03-02-PLAN.md
 
-Progress: [███████░░░] 75%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
+- Total plans completed: 7
 - Average duration: ~2 minutes
-- Total execution time: ~11 minutes
+- Total execution time: ~13 minutes
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [███████░░░] 75%
 |-------|-------|-------|----------|
 | 1 - SpreadsheetParser Core | 3/3 | ~6 min | ~2 min |
 | 2 - Parser-Config Integration | 2/2 | ~3 min | ~1.5 min |
-| 3 - Routing End-to-End | 1/2 | ~2 min | ~2 min |
+| 3 - Routing End-to-End | 2/2 | ~4 min | ~2 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (~3 min), 02-01 (~1 min), 02-02 (~2 min), 03-01 (~2 min)
+- Last 5 plans: 02-01 (~1 min), 02-02 (~2 min), 03-01 (~2 min), 03-02 (~2 min)
 - Trend: fast execution, consistent
 
 *Updated after each plan completion*
@@ -59,8 +59,10 @@ Recent decisions affecting current work:
 - SPREADSHEET_FORMATS separate from OFFICE_FORMATS — enables clean routing in parse_document()
 - is_direct_spreadsheet flag is True even when parse_spreadsheet() internally falls back to LibreOffice — guard bypassed for both internal paths
 - _StubProcessor duck-typing approach for routing tests — avoids full RAGAnything/LightRAG stack instantiation
-- _FORMULA_NONE_THRESHOLD = 0.10 — 10% empty-cell ratio triggers LibreOffice fallback; heuristic to validate against real samples in plan 03-02
+- _FORMULA_NONE_THRESHOLD = 0.10 — 10% empty-cell ratio triggers LibreOffice fallback; validated in 03-02
 - GFM separator detection requires at least one dash — distinguishes |---| separator rows from | | empty data rows in table_body parsing
+- Patch SpreadsheetParser at raganything.spreadsheet (not raganything.parser) — local import pattern; parser module has no direct attribute
+- sys.modules[module]=None for ImportError simulation — cleanest way to intercept local from-import, restore in finally
 
 ### Pending Todos
 
@@ -68,12 +70,10 @@ Recent decisions affecting current work:
 
 ### Blockers/Concerns
 
-- Formula-None threshold (>10% triggers LibreOffice fallback) is a heuristic — validate against real samples in plan 03-02
-- xlrd legacy .xls fixture coverage may require synthetic files if real Excel 97 era files are hard to source
-- .gitignore `test_*` pattern may cause issues for future test file commits
+None — all phases complete.
 
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 03-01-PLAN.md
+Stopped at: Completed 03-02-PLAN.md (all phases complete)
 Resume file: None
