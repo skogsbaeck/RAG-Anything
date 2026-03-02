@@ -34,6 +34,19 @@ class RAGAnythingConfig:
     )
     """Whether to display content statistics during parsing."""
 
+    # Audio Processing Configuration
+    # ---
+    audio_language: str = field(default=get_env_value("AUDIO_LANGUAGE", "auto", str))
+    """Default language for audio transcription: 'auto', 'en', 'de', 'es', 'fr', etc."""
+
+    audio_whisper_model: str = field(
+        default=get_env_value("AUDIO_WHISPER_MODEL", "base", str)
+    )
+    """Whisper model size for audio transcription: 'tiny', 'base', 'small', 'medium', 'large'."""
+
+    audio_device: str = field(default=get_env_value("AUDIO_DEVICE", "cpu", str))
+    """Processing device for audio transcription: 'cpu' or 'cuda'."""
+
     # Multimodal Processing Configuration
     # ---
     enable_image_processing: bool = field(
@@ -61,7 +74,7 @@ class RAGAnythingConfig:
     supported_file_extensions: List[str] = field(
         default_factory=lambda: get_env_value(
             "SUPPORTED_FILE_EXTENSIONS",
-            ".pdf,.jpg,.jpeg,.png,.bmp,.tiff,.tif,.gif,.webp,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md",
+            ".pdf,.jpg,.jpeg,.png,.bmp,.tiff,.tif,.gif,.webp,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md,.mp3,.wav,.m4a,.ogg,.flac,.aac",
             str,
         ).split(",")
     )
@@ -109,13 +122,10 @@ class RAGAnythingConfig:
     """Whether to use full file path (True) or just basename (False) for file references in LightRAG."""
 
     def __post_init__(self):
-        """Post-initialization setup for backward compatibility"""
-        # Support legacy environment variable names for backward compatibility
+        import warnings
         legacy_parse_method = get_env_value("MINERU_PARSE_METHOD", None, str)
         if legacy_parse_method and not get_env_value("PARSE_METHOD", None, str):
             self.parse_method = legacy_parse_method
-            import warnings
-
             warnings.warn(
                 "MINERU_PARSE_METHOD is deprecated. Use PARSE_METHOD instead.",
                 DeprecationWarning,
@@ -124,14 +134,7 @@ class RAGAnythingConfig:
 
     @property
     def mineru_parse_method(self) -> str:
-        """
-        Backward compatibility property for old code.
-
-        .. deprecated::
-           Use `parse_method` instead. This property will be removed in a future version.
-        """
         import warnings
-
         warnings.warn(
             "mineru_parse_method is deprecated. Use parse_method instead.",
             DeprecationWarning,
@@ -141,9 +144,7 @@ class RAGAnythingConfig:
 
     @mineru_parse_method.setter
     def mineru_parse_method(self, value: str):
-        """Setter for backward compatibility"""
         import warnings
-
         warnings.warn(
             "mineru_parse_method is deprecated. Use parse_method instead.",
             DeprecationWarning,
